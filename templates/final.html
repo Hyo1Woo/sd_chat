@@ -1,0 +1,36 @@
+<!doctype html>
+        <html>
+            <head>
+                <title>Temp Image list</title>
+                <style>
+                    .image-grid {
+                        display: grid;
+                        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                        grid-gap: 10px;
+                        justify-items: center;
+                        align-items: center;
+                    }
+                    img {
+                        width: 100%;
+                        height: auto;
+                        max-width: 200px;
+                        cursor: pointer;
+                    }
+                    figcaption {
+                        text-align: center;
+                        font-size: 14px;
+                        margin-top: 5px;
+                    }
+                </style>
+            </head>
+            <body>
+                <div class="image-grid">
+                    {% for image in temp_image_list %}
+                        <figure>
+                            <img src="{{ image }}" alt="{{ image }}">
+                            <figcaption>{{ image. split('/')[-1][:-6] }}</figcaption>
+                        </figure>
+                    {% endfor %}
+                </div>
+            </body>
+        </html>

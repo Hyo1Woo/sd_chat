@@ -1,0 +1,62 @@
+<!doctype html>
+        <html>
+            <head>
+                <title>이미지 리스트</title>
+                <style>
+                    .image-grid {
+                        display: grid;
+                        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                        grid-gap: 10px;
+                        justify-items: center;
+                        align-items: center;
+                    }
+                    img {
+                        width: 100%;
+                        height: auto;
+                        max-width: 200px;
+                        cursor: pointer;
+                    }
+                    figcaption {
+                        text-align: center;
+                        font-size: 14px;
+                        margin-top: 5px;
+                    }
+                </style>
+                <script>
+                    function saveImage(imageName, clickedImage) {
+                        fetch('/save-image', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({ name: imageName })
+                        }).then(response => {
+                            if (response.ok) {
+                                alert('이미지가 저장되었습니다.');
+                                clickedImage.style.border = "5px solid red";
+                            } else {
+                                alert('이미지 저장에 실패했습니다.');
+                            }
+                        });
+                    }
+                </script>
+            </head>
+            <body>
+                <div class="image-grid">
+                    {% for image in image_list %}
+                        <figure>
+                            <img src="{{ image }}" alt="{{ image }}" onclick="saveImage('{{ image.split('/')[-1] }}', this)">
+                            <figcaption>{{ image.split('/')[-1] }}</figcaption>
+                        </figure>
+                    {% endfor %}
+                </div>
+                <form action="{{ url_for('done')}}" method="POST">
+                    <input type="submit" value="done">
+                </form>
+            </body>
+
+
+        </html>
+
+
+
